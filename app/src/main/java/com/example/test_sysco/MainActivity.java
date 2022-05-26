@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
                 } else {
                     Toast.makeText(MainActivity.this, "No data received !", Toast.LENGTH_SHORT).show();
+                    if (isLoading)
+                        adapter.removeLoading();
                 }
 
                 if (progressDialog.isShowing())
