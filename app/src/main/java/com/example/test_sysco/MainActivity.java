@@ -1,6 +1,6 @@
 package com.example.test_sysco;
 
-import static com.example.test_sysco.recycle_compo.PaginationListener.PAGE_START;
+import static com.example.test_sysco.listeners.PaginationListener.PAGE_START;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,23 +19,25 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.example.test_sysco.listeners.ItemClickListener;
 import com.example.test_sysco.pojo.Planets;
 import com.example.test_sysco.pojo.ResponseBean;
-import com.example.test_sysco.recycle_compo.PaginationListener;
+import com.example.test_sysco.listeners.PaginationListener;
 import com.example.test_sysco.recycle_compo.RecyclerAdapter;
 import com.example.test_sysco.viewmodel.MainActivityViewModel;
 
 import java.util.ArrayList;
 
-import javax.inject.Inject;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener,ItemClickListener {
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener, ItemClickListener {
 
     @BindView(R.id.recyclerView)
     RecyclerView mRecyclerView;
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     SwipeRefreshLayout swipeRefresh;
     private int currentPage = PAGE_START, itemCount = 0, totalPage = 10;
     private boolean isLastPage = false, isLoading = false;
+    ProgressDialog progressDialog;
 
     RecyclerAdapter adapter;
 
@@ -96,10 +100,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 } else {
                     Toast.makeText(MainActivity.this, "No data received !", Toast.LENGTH_SHORT).show();
                 }
+
+                if (progressDialog.isShowing())
+                    progressDialog.dismiss();
+
             }
         });
 
         viewModel.makeApiCall(String.valueOf(currentPage));
+        showProgress();
 
     }
 
@@ -122,15 +131,9 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
 
     public void makeDialogbox(Planets planets) {
 
-        Rect displayRectangle = new Rect();
-        Window window = MainActivity.this.getWindow();
-        window.getDecorView().getWindowVisibleDisplayFrame(displayRectangle);
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
         ViewGroup viewGroup = findViewById(android.R.id.content);
         View dialogView = LayoutInflater.from(getApplication()).inflate(R.layout.layout_dialog, viewGroup, false);
-        ButterKnife.bind(dialogView);
-        dialogView.setMinimumWidth((int) (displayRectangle.width() * 1f));
-        dialogView.setMinimumHeight((int) (displayRectangle.height() * 1f));
         builder.setView(dialogView);
 
         final AlertDialog alertDialog = builder.create();
@@ -139,10 +142,15 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
         TextView tvName = dialogView.findViewById(R.id.tvDialogName);
         TextView tvOrbit = dialogView.findViewById(R.id.tvDialogOrbit);
         TextView tvGravity = dialogView.findViewById(R.id.tvDialogGravity);
+        ImageView imgPic = dialogView.findViewById(R.id.imgDialogPic);
 
-        tvName.setText(planets.getName());
-        tvOrbit.setText(planets.getOrbital_period());
-        tvGravity.setText(planets.getGravity());
+        Glide.with(imgPic).load("https://picsum.photos/200")
+                .apply(RequestOptions.centerCropTransform())
+                .into(imgPic);
+
+        tvName.setText("Planet " + planets.getName());
+        tvOrbit.setText("Orbital period : " + planets.getOrbital_period());
+        tvGravity.setText("Gravity : " + planets.getGravity());
 
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,4 +176,12 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
     public void onListItemClicked(Planets planets) {
         makeDialogbox(planets);
     }
+
+    public void showProgress() {
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading");
+        progressDialog.show();
+    }
+
+
 }

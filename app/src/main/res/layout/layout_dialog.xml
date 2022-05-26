@@ -1,42 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgDialogPic"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center"
-        android:layout_marginStart="10dp" />
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/tvDialogName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20dp" />
+        android:gravity="center"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imgDialogPic"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="@dimen/margin_single"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogName" />
 
     <TextView
         android:id="@+id/tvDialogOrbit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_single"
+        android:textColor="@color/black"
         android:textSize="20dp"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/imgDialogPic" />
 
     <TextView
         android:id="@+id/tvDialogGravity"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/black"
         android:textSize="20dp"
-
-        />
+        app:layout_constraintTop_toBottomOf="@id/tvDialogOrbit" />
 
     <Button
         android:id="@+id/buttonOk"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="OK" />
+        android:layout_marginTop="50dp"
+        android:backgroundTint="@android:color/holo_blue_light"
+        android:text="OK"
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/tvDialogGravity"
+        tools:layout_editor_absoluteX="20dp" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

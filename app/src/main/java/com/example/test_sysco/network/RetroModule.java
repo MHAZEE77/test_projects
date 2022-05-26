@@ -3,10 +3,7 @@ package com.example.test_sysco.network;
 
 import android.content.Context;
 
-import com.example.test_sysco.ItemClickListener;
-import com.example.test_sysco.recycle_compo.RecyclerAdapter;
-
-import java.util.ArrayList;
+import com.example.test_sysco.R;
 
 import javax.inject.Singleton;
 
@@ -18,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class RetroModule {
 
-    private String base_url ="https://swapi.dev/api/";
+//    private String base_url ="https://swapi.dev/api/";
     Context context;
 
     public RetroModule(Context context){
@@ -36,7 +33,7 @@ public class RetroModule {
     public Retrofit getRetrofitInstrance(){
 
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(base_url)
+                .baseUrl(context.getString(R.string.base_url))
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         return retrofit;

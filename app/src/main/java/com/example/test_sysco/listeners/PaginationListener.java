@@ -1,4 +1,4 @@
-package com.example.test_sysco.recycle_compo;
+package com.example.test_sysco.listeners;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;

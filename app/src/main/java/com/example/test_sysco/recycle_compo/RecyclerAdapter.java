@@ -1,12 +1,10 @@
 package com.example.test_sysco.recycle_compo;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -14,10 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.test_sysco.ItemClickListener;
+import com.example.test_sysco.listeners.ItemClickListener;
 import com.example.test_sysco.R;
 import com.example.test_sysco.pojo.Planets;
-import com.example.test_sysco.recycle_compo.BaseViewHolder;
 
 import java.util.ArrayList;
 
@@ -126,7 +123,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<BaseViewHolder> {
             Planets item = mPostItems.get(position);
 
             textViewTitle.setText("Planet : " + item.getName());
-            textViewDescription.setText("Gravity : " + item.getGravity());
+            textViewDescription.setText("Climate : " + item.getClimate());
             Glide.with(imgPic).load("https://picsum.photos/200")
                     .apply(RequestOptions.centerCropTransform())
                     .into(imgPic);
