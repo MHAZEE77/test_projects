@@ -14,8 +14,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class RetroModule {
-
-//    private String base_url ="https://swapi.dev/api/";
     Context context;
 
     public RetroModule(Context context){
